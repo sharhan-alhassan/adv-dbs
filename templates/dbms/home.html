@@ -1,0 +1,126 @@
+
+{% extends 'dbms/_base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+
+<!-- <div class="container">
+  <div class="row">
+    <div class="col">
+      <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <div class="text-center pt-1 mb-5 pb-1">
+          <button class="btn btn-primary" type="submit">Register</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div> -->
+
+<div class="container col-md-6 align-items-center justify-content-center mt-5">
+  <div class="row">
+    <form method="POST" action="">
+      {% csrf_token %}
+      <!-- 2 column grid layout with text inputs for the first and last names -->
+
+      {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+      {% endif %}
+
+      {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
+
+      {% if form.non_field_errors %}
+      <div class="alert alert-danger" role="alert">
+        {% for error in form.non_field_errors %}
+          {{ error }}
+        {% endfor %}
+      </div>
+      {% endif %}
+      
+      <div class="row mb-4">
+      </div>
+
+      {% for field in form.visible_fields %}
+        <div class="form-outline mb-4">
+          {{ field|add_class:'form-control' }}
+          <label class="form-label" for="{{ field.id_for_label }}" type="{{ field|widget_type }}">{{ field.label }}</label>
+          {% for error in field.errors %}
+            <div class="invalid-feedback">{{ error }}</div>
+          {% endfor %}
+        </div>
+      {% endfor %}
+    
+      <!-- Checkbox -->
+      <!-- <div class="form-check d-flex justify-content-center mb-4">
+        <input class="form-check-input me-2" type="checkbox" value="" id="form2Example33" checked />
+        <label class="form-check-label" for="form2Example33">
+          Subscribe to our newsletter
+        </label>
+      </div> -->
+    
+      <!-- Submit button -->
+      <button type="submit" class="btn btn-primary btn-block mb-4">Sign up</button>
+    
+      <!-- Register buttons -->
+      <div class="text-center">
+        <p>or sign up with:</p>
+        <button type="button" class="btn btn-secondary btn-floating mx-1">
+          <i class="fab fa-facebook-f"></i>
+        </button>
+    
+        <button type="button" class="btn btn-secondary btn-floating mx-1">
+          <i class="fab fa-google"></i>
+        </button>
+    
+        <button type="button" class="btn btn-secondary btn-floating mx-1">
+          <i class="fab fa-twitter"></i>
+        </button>
+    
+        <button type="button" class="btn btn-secondary btn-floating mx-1">
+          <i class="fab fa-github"></i>
+        </button>
+      </div>
+  </form>
+  </div>
+</div>
+
+
+<div class="container d-flex align-items-center justify-content-center mt-5">
+  <div class="row">
+    {% if students %}
+    {% for student in students %}
+    <div class="col">
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+        </div>
+
+        <ul class="list-group list-group-light list-group-small">
+          <li class="list-group-item px-4">Firstname: {{ student.firstname }} </li>
+          <li class="list-group-item px-4">Lastname: {{ student.lastname }} </li>
+          <li class="list-group-item px-4">DOB: {{ student.dob }} </li>
+          <li class="list-group-item px-4">Age: {{ student.age }} </li>
+          <li class="list-group-item px-4">Full Name: {{ student.fullname }} </li>
+        </ul>
+        
+        <div class="card-body">
+          <div class="btn-group" role="group" aria-label="Basic example">
+            <a href="{{ student.get_absolute_url }}" type="button" class="btn btn-primary">View</a>
+            <button type="button" class="btn btn-secondary">Edit</button>
+            <button type="button" class="btn btn-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h2 class="card-text">No students.</h2>
+    {% endif %}
+
+  </div>
+</div>
+{% endblock content %}
+
